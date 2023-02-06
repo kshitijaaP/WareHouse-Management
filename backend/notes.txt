@@ -1,0 +1,5 @@
+1.knex init:db ka confiig set hota haibanata hai knexfile.js
+
+2.knex migrate:make warehouses file banega project struture
+
+3.knex migrate:latest 
