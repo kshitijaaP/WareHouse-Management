@@ -16,45 +16,44 @@ const saveProductAsWholeSection = async (req, res, next) => {
 
   let sectionData = await getSectionCapacity(warehouse)
   sectionData.forEach((section) => {
-   
+
     sectionCapacity = sectionCapacity + section.section_capacity
   })
 
-  console.log(sectionCapacity)
   //to delete previous section for creating single section
-  // let delSectionData = await deleteSectionData(sectionData)
+  let delSectionData = await deleteSectionData(sectionData)
 
-  // if (delSectionData === true) {
-  //   //insert one single section
-  
-  //   const props = req.body
-   
-  //   let sectionprops={warehouse_id:warehouse,section_name:props.name,section_capacity:sectionCapacity}
-  //   let newSectionId=0
-  //   let latestSectionData
-  //  await Section.create({ ...sectionprops })
-  //     .then(async section => {
-  //       let sectionData =await getSectionCapacity(warehouse)
-  //       latestSectionData=sectionData
-      
-  //     })
-  //     console.log(latestSectionData)
-  //     let productProps
-  //     latestSectionData.forEach((sectionData)=>
-  //     {
-  //      productProps={product_name:name ,warehouse_id:warehouse,warehouse_name:warehouse_name,section_name:sectionData.section_name,section_id:sectionData.id,quantity:quantity}
-       
-    
-  //     })
-  //     console.log(productProps)
-  //     await Product.create({ ...productProps })
-  //     .then(product => res.json({
-  //       ok: true,
-  //       message: 'Product Inserted',
-  //       product
-  //     }))
-      
-  //    }
+  if (delSectionData === true) {
+    //insert one single section
+
+    const props = req.body
+
+    let sectionprops={warehouse_id:warehouse,section_name:props.name,section_capacity:sectionCapacity}
+    let newSectionId=0
+    let latestSectionData
+   await Section.create({ ...sectionprops })
+      .then(async section => {
+        let sectionData =await getSectionCapacity(warehouse)
+        latestSectionData=sectionData
+
+      })
+      console.log(latestSectionData)
+      let productProps
+      latestSectionData.forEach((sectionData)=>
+      {
+       productProps={product_name:name ,warehouse_id:warehouse,warehouse_name:warehouse_name,section_name:sectionData.section_name,section_id:sectionData.id,quantity:quantity}
+
+
+      })
+      console.log(productProps)
+      await Product.create({ ...productProps })
+      .then(product => res.json({
+        ok: true,
+        message: 'Product Inserted',
+        product
+      }))
+
+     }
 }
 
 
@@ -107,17 +106,17 @@ const deleteSectionData = async (sectionData) => {
   //       console.log("error in destroy  " ,err)
   //     })
   //  }))
- 
+
   if(delcount===sectionDataLength)
       {
-        
-       
+
+
         return true
       }
     return false
 
 
-    
+
 }
 const getProducts = (req, res, next) => {
 
@@ -194,16 +193,16 @@ const saveProductAsSectionBySection=(req, res)=>{
   const props = req.body
   let propLength=props.length
   let addProdCount=0
-  
+
   props.forEach(element => {   
 
-    
+
     Product.saveFromArray({...element}).then(product=>{
       // console.log(element.section_capacity  ,'Quan' , element.quantity)
       let updatedCapacitySec =element.section_capacity-element.quantity
-    
+
       const sectionUpdateProps={section_capacity:updatedCapacitySec}
-      
+
       Section.update(element.section_id, sectionUpdateProps)
       .then(section =>{
         console.log(section)
@@ -229,8 +228,8 @@ const saveProductAsSectionBySection=(req, res)=>{
         res.send(addProdCount)
       }
     })
-    
-      
+
+
 });
 }
 module.exports = {
