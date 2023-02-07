@@ -11,7 +11,7 @@ exports.up = function(knex) {
         t.integer('section_id').references('sections.id').unsigned().index().onDelete('CASCADE')
         t.string('section_name')
         t.integer('section_capacity')
-        t.integer('product_quantity')
+        t.integer('quantity')
         t.string('product_category')
         
       })

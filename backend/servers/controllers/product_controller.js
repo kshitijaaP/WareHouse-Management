@@ -20,40 +20,41 @@ const saveProductAsWholeSection = async (req, res, next) => {
     sectionCapacity = sectionCapacity + section.section_capacity
   })
 
+  console.log(sectionCapacity)
   //to delete previous section for creating single section
-  let delSectionData = await deleteSectionData(sectionData)
+  // let delSectionData = await deleteSectionData(sectionData)
 
-  if (delSectionData === true) {
-    //insert one single section
+  // if (delSectionData === true) {
+  //   //insert one single section
   
-    const props = req.body
+  //   const props = req.body
    
-    let sectionprops={warehouse_id:warehouse,section_name:props.name,section_capacity:sectionCapacity}
-    let newSectionId=0
-    let latestSectionData
-   await Section.create({ ...sectionprops })
-      .then(async section => {
-        let sectionData =await getSectionCapacity(warehouse)
-        latestSectionData=sectionData
+  //   let sectionprops={warehouse_id:warehouse,section_name:props.name,section_capacity:sectionCapacity}
+  //   let newSectionId=0
+  //   let latestSectionData
+  //  await Section.create({ ...sectionprops })
+  //     .then(async section => {
+  //       let sectionData =await getSectionCapacity(warehouse)
+  //       latestSectionData=sectionData
       
-      })
-      console.log(latestSectionData)
-      let productProps
-      latestSectionData.forEach((sectionData)=>
-      {
-       productProps={product_name:name ,warehouse_id:warehouse,warehouse_name:warehouse_name,section_name:sectionData.section_name,section_id:sectionData.id,quantity:quantity}
+  //     })
+  //     console.log(latestSectionData)
+  //     let productProps
+  //     latestSectionData.forEach((sectionData)=>
+  //     {
+  //      productProps={product_name:name ,warehouse_id:warehouse,warehouse_name:warehouse_name,section_name:sectionData.section_name,section_id:sectionData.id,quantity:quantity}
        
     
-      })
-      console.log(productProps)
-      await Product.create({ ...productProps })
-      .then(product => res.json({
-        ok: true,
-        message: 'Product Inserted',
-        product
-      }))
+  //     })
+  //     console.log(productProps)
+  //     await Product.create({ ...productProps })
+  //     .then(product => res.json({
+  //       ok: true,
+  //       message: 'Product Inserted',
+  //       product
+  //     }))
       
-     }
+  //    }
 }
 
 
